@@ -7,8 +7,8 @@
 
 	<?php
 
-	$firstName= $Gender="";
-	$firstNameErr=$GenderErr="";
+	$firstName=$lastName= $Gender=$Email=$userName=$password=$rMail="";
+	$firstNameErr=$GenderErr=$LastNameErr=$EmailErr=$UserErr=$PassErr=$REmailErr="";
 
 	if($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -20,6 +20,25 @@
 		}
 		else {
 			$firstName=$_POST['fname'];
+		}
+
+		if (empty($_POST['lname'])) {
+
+			$LastNameErr="Please Enter Last Name";
+			
+		}
+		else {
+			$lastName=$_POST['lname'];
+		}
+
+
+		if (empty($_POST['email'])) {
+
+			$EmailErr="Please Enter Email";
+			
+		}
+		else {
+			$Email=$_POST['email'];
 		}
 
 
@@ -40,16 +59,49 @@
 	
 			}
 
-		if ($firstNameErr=="" && $GenderErr=="") {
+
+			if (empty($_POST['uname'])) {
+
+			$UserErr="Please Enter User";
+			
+		}
+		else {
+			$userName=$_POST['uname'];
+		}
+
+
+		if (empty($_POST['pass'])) {
+
+			$PassErr="Please Enter Password";
+			
+		}
+		else {
+			$password=$_POST['pass'];
+		}
+
+
+		if (empty($_POST['remail'])) {
+
+			$REmailErr="Please Enter email";
+			
+		}
+		else {
+			$rMail=$_POST['remail'];
+		}
+
+		if ($firstNameErr=="" && $GenderErr=="" && $LastNameErr== "" && $EmailErr== "" && $UserErr== "" && $PassErr== "" && $REmailErr=="") {
 			echo "Success" .$firstName;
 			$filePath = "self1.txt";
 
 
 				$f4 = fopen($filePath, "a");
 
-		        fwrite($f4, $firstName. " " .$Gender ."\n");
+		        fwrite($f4, $firstName. ",". $lastName ."," .$Gender . "," . $Email . "," . $userName . ",". $password . "," .$rMail.  "\n");
 
 		        fclose($f4);
+
+
+		        header("location: Login.php");
 		}
 
       
@@ -62,10 +114,19 @@
 
 	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
 
+	<fieldset>
+    <legend>Basic Information :</legend>
+
 	<label for="firstName">First Name : </label>
 	<input type="text" id="firstName" name="fname" value="<?php echo $firstName ?>">
 	<?php echo $firstNameErr; ?>
 
+	<br>
+
+	<!-- LName  -->
+        <label for="lastName">Last Name : </label>
+		<input type="text" name="lname" id="lastName" value="<?php echo $lastName ?>">
+		<p><?php echo $LastNameErr; ?></p>
 	<br>
 
 		<!-- Gender  -->
@@ -76,6 +137,37 @@
 		<label for="female">Female</label>
 		<p><?php echo $GenderErr; ?></p>
      <br>
+
+     <!-- Email  -->
+		<label for="Email">Email : </label>
+		<input type="email" name="email" id="Email" value="<?php echo $Email ?>">
+		<p><?php echo $EmailErr; ?></p>
+	<br>
+
+	</fieldset>
+
+
+	<fieldset>
+		
+	   <legend>User Information :</legend>
+
+        <!-- User Name  -->
+		<label for="userName">User Name : </label>
+		<input type="text" name="uname" id="userName" value="<?php echo $userName ?>">
+		<p><?php echo $UserErr; ?></p>
+		<br>
+        <!-- Password  -->
+		<label for="password">Password : </label>
+		<input type="password" name="pass" id="password" value="<?php echo $password ?>">
+		<p><?php echo $PassErr; ?></p>
+		<br>
+        <!-- Recovery Email  -->
+		<label for="rMail">Recovery Email : </label>
+		<input type="email" name="remail" id="rMail" value="<?php echo $rMail ?>">
+		<p><?php echo $REmailErr; ?></p>
+		<br>
+        
+    </fieldset>
 
 
 	<input type="submit" name="submit">
